@@ -1,0 +1,24 @@
+.register_card{
+    background-color: #39f !important;
+    color:white;
+}
+.heading2{
+    color: white;
+}
+.login_card{
+    background-color: #ebedef !important;
+    height: 258px;
+}
+.card_formate{
+    background-color: #ebedef !important;
+}
+.menu_list{
+    width: 256px;
+    height: 100%;
+}
+.btn-addnew{
+    margin-left: 870px;
+}
+.btn-search{
+    margin-top: 30px;
+}
