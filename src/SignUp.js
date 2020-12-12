@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Form, Input, Button, Checkbox, Row, Col, Card, Icon, Radio, Select} from 'antd';
+import {Form, Input, Button, Row, Col, Card, Radio, Select} from 'antd';
 import {UserOutlined, LockOutlined, MailOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom';
 
@@ -17,7 +17,6 @@ const numOfCountries = [
 const SignUp = (props) => {
     const [userDetails, setUserDetails] = useState({});
     const [list, setList] = useState([]);
-    const [editId, setEditable] = useState(null);
     const [errors, setValidation] = React.useState({});
     const history = useHistory();
 
@@ -102,7 +101,6 @@ const SignUp = (props) => {
                     .then(response => {
                         history.push("/user");
                         setUserDetails({});
-                        setEditable(null);
                         setValidation({});
                     })
                     .catch(err => {
@@ -114,7 +112,6 @@ const SignUp = (props) => {
                         setList([...list, res.data]);
                         history.push("/login");
                         setUserDetails({});
-                        setEditable(null);
                         setValidation({});
                     })
                     .catch(err => {

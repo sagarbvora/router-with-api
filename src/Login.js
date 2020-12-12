@@ -18,7 +18,7 @@ const Login = (props) => {
     const onLogin = () => {
         axios.post('http://localhost:8080/users/login', loginData)
             .then(res => {
-                if (res && res.data && res.data._id) {
+                if (res && res.data && res.data._id !== "") {
                     message.success("Login Successfully");
                     localStorage.setItem("token", res.data.email);
                     history.push("/userDashBord");
