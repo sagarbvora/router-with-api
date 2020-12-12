@@ -7,7 +7,7 @@ import axios from "axios";
 const Login = (props) => {
 
     const [loginData, setLoginData] = useState({});
-    const [list, setList] = useState([]);
+    // const [list, setList] = useState([]);
     const history = useHistory();
 
     const handleChange = (event) => {

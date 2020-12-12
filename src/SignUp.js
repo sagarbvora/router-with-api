@@ -26,15 +26,16 @@ const SignUp = (props) => {
     }, [props.match.params.id]);
 
     const initial = (id) => {
-        axios.get(`http://localhost:8080/users/${id}`)
-            .then(res => {
-                if(res.data && res.data._id){
-                    setUserDetails(res.data);
-                }
-            })
-            .catch(err => {
+        if (props.match.params.id !== undefined) {
+            axios.get(`http://localhost:8080/users/${id}`)
+                .then(res => {
+                    if (res.data && res.data._id) {
+                        setUserDetails(res.data);
+                    }
+                }).catch(err => {
                 console.log(err);
             })
+        }
     }
 
     const handleChange = event => {
@@ -99,27 +100,30 @@ const SignUp = (props) => {
             if (props.match.params.id !== undefined) {
                 axios.put(`http://localhost:8080/users/${userDetails._id}`, userDetails)
                     .then(response => {
-                        console.log(response);
                         history.push("/user");
+                        setUserDetails({});
+                        setEditable(null);
+                        setValidation({});
                     })
                     .catch(err => {
                         console.log(err)
                     })
-            }else {
+            } else {
                 axios.post(`http://localhost:8080/users`, userDetails)
                     .then(res => {
                         setList([...list, res.data]);
-                        console.log(list);
                         history.push("/login");
+                        setUserDetails({});
+                        setEditable(null);
+                        setValidation({});
                     })
                     .catch(err => {
-                    console.log(err)
-                })
+                        console.log(err)
+                    })
             }
-            setUserDetails({});
-            setEditable(null);
-            setValidation({});
-    }
+
+
+        }
     }
     return (
         <>
