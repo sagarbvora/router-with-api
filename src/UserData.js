@@ -4,6 +4,7 @@ import {Popconfirm, Button, message, Row, Col, Input} from 'antd';
 import {DeleteOutlined, EditOutlined, SearchOutlined} from '@ant-design/icons';
 import Table from "antd/lib/table";
 import {useHistory} from 'react-router-dom';
+import $ from "jquery";
 
 // const {Column, ColumnGroup} = Table;
 const {Search} = Input;

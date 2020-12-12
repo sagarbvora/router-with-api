@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import $ from "jquery";
 import {Form, Input, Button, Row, Col, Card, Radio, Select} from 'antd';
 import {UserOutlined, LockOutlined, MailOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom';
@@ -25,6 +26,7 @@ const SignUp = (props) => {
 
     const initial = (id) => {
         if (props.match.params.id !== undefined) {
+            $("#password").hide();
             axios.get(`http://localhost:8080/users/${id}`)
                 .then(res => {
                     if (res.data && res.data._id) {
@@ -195,7 +197,7 @@ const SignUp = (props) => {
                             </Form.Item>
                             <Form.Item>
                                 <Input.Password name="password" addonBefore={<LockOutlined/>}
-                                                value={userDetails.password || ""} onChange={handleChange}/>
+                                              id = "password"  value={userDetails.password || ""} onChange={handleChange}/>
                                 <span className="text-danger">{errors.password || ""}</span>
                             </Form.Item>
                             <Form.Item>
