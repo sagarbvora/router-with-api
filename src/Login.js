@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Form, Input, Button, Checkbox, Row, Col, Card, Icon, message} from 'antd';
+import React, { useState } from 'react';
+import {Form, Input, Button, Row, Col, Card, message} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom';
 import axios from "axios";
@@ -16,19 +16,24 @@ const Login = (props) => {
     }
 
     const onLogin = () => {
-        axios.post('http://localhost:8080/users/login', loginData)
-            .then(res => {
-                if (res && res.data && res.data._id !== "") {
-                    message.success("Login Successfully");
-                    localStorage.setItem("token", res.data.email);
-                    history.push("/userDashBord");
-                }else{
+        if(loginData.email && loginData.password !== null){
+            axios.post('http://localhost:8080/users/login', loginData)
+                .then(res => {
+                    if (res && res.data && res.data._id && res.data.isActive) {
+                        message.success("Login Successfully");
+                        localStorage.setItem("token", res.data.email);
+                        history.push("/userDashBord");
+                    }else{
+                        message.error("Please First Your Register Data..");
+                    }
+                })
+                .catch(err => {
                     message.error("Please Enter Valid Data..");
-                }
-            })
-            .catch(err => {
-                message.error("Please Enter Valid Data..");
-            })
+                })
+        }else{
+            message.error("Please Enter Data");
+        }
+
     }
 
     const onRegister = () => {

@@ -16,7 +16,6 @@ const numOfCountries = [
 ];
 const SignUp = (props) => {
     const [userDetails, setUserDetails] = useState({});
-    const [list, setList] = useState([]);
     const [errors, setValidation] = React.useState({});
     const history = useHistory();
 
@@ -105,14 +104,15 @@ const SignUp = (props) => {
                     })
                     .catch(err => {
                         console.log(err)
-                    })
+            })
             } else {
+                userDetails.isActive = true;
                 axios.post(`http://localhost:8080/users`, userDetails)
                     .then(res => {
-                        setList([...list, res.data]);
-                        history.push("/login");
-                        setUserDetails({});
-                        setValidation({});
+                        console.log(userDetails);
+                            history.push("/login");
+                            setUserDetails({});
+                            setValidation({});
                     })
                     .catch(err => {
                         console.log(err)

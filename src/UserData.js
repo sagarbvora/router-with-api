@@ -1,20 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {Popconfirm, Button, message, Row, Col, Input} from 'antd';
-import { DeleteOutlined, EditOutlined, SearchOutlined} from '@ant-design/icons';
+import {DeleteOutlined, EditOutlined, SearchOutlined} from '@ant-design/icons';
 import Table from "antd/lib/table";
 import {useHistory} from 'react-router-dom';
 
 // const {Column, ColumnGroup} = Table;
-const { Search } = Input;
+const {Search} = Input;
 
 const User = (props) => {
     const [searchDetails, setSearchDetails] = useState({
-        firstName:"",
-        lastName:"",
-        email:"",
-        age:"",
-        gender:""
+        firstName: "",
+        lastName: "",
+        email: "",
+        age: "",
+        gender: ""
     });
     const [list, setList] = useState([]);
     const history = useHistory();
@@ -40,8 +40,9 @@ const User = (props) => {
     }
 
     const onDelete = (id) => {
-         axios.delete(`http://localhost:8080/users/${id}`)
-            .then(() => {
+        axios.put(`http://localhost:8080/users/activeUsers/${id}`, {isActive: false})
+        // axios.delete(`http://localhost:8080/users/${id}`)
+            .then((req) => {
                 message.success("Successfully Deleted")
                 initial();
             })
@@ -53,15 +54,15 @@ const User = (props) => {
 
     const onLogOut = () => {
         history.push("/login");
-        localStorage.setItem("token","");
+        localStorage.setItem("token", "");
     }
     const onNewData = () => {
         history.push("/signup");
     }
 
-    const onChange = e =>{
-        const {name,value} = e.target;
-        setSearchDetails({...searchDetails,[name]: value});
+    const onChange = e => {
+        const {name, value} = e.target;
+        setSearchDetails({...searchDetails, [name]: value});
     }
     const onSearch = () => {
         let searchValue = searchDetails;
@@ -85,11 +86,6 @@ const User = (props) => {
     }
 
     const columns = [
-        // {
-        //     title: 'Id',
-        //     dataIndex: 'id',
-        //     key: 'id'
-        // },
         {
             title: 'First Name',
             width: 120,
@@ -133,6 +129,18 @@ const User = (props) => {
             fixed: 'left',
         },
         {
+            title: 'Status',
+            width: 100,
+            dataIndex: 'isActive',
+            key: 'isActive',
+            fixed: 'left',
+            render: (text, record) => {
+                return (
+                    <span>{record.isActive ? "true" : "false"}</span>
+                )
+            }
+        },
+        {
             title: 'Action',
             dataIndex: 'id',
             render: (text, record) => {
@@ -169,30 +177,36 @@ const User = (props) => {
                         <Button type="primary" htmlType="submit" onClick={onLogOut}>
                             Log Out
                         </Button>
-                    </div><br/><br/>
+                    </div>
+                    <br/><br/>
                     <Row>
                         <Col span={4}>
                             <label>FirstName</label>
-                            <Search placeholder="input search text" name="firstName" value={searchDetails.firstName} onChange={onChange} />
+                            <Search placeholder="input search text" name="firstName" value={searchDetails.firstName}
+                                    onChange={onChange}/>
                         </Col>&nbsp;&nbsp;
                         <Col span={4}>
                             <label>LastName</label>
-                            <Search placeholder="input search text" name="lastName" value={searchDetails.lastName} onChange={onChange} />
+                            <Search placeholder="input search text" name="lastName" value={searchDetails.lastName}
+                                    onChange={onChange}/>
                         </Col>&nbsp;&nbsp;
                         <Col span={4}>
                             <label>Email</label>
-                            <Search placeholder="input search text" name="email" value={searchDetails.email} onChange={onChange} />
+                            <Search placeholder="input search text" name="email" value={searchDetails.email}
+                                    onChange={onChange}/>
                         </Col>&nbsp;&nbsp;
                         <Col span={4}>
                             <label>Age</label>
-                            <Search placeholder="input search text" name="age" value={searchDetails.age} onChange={onChange} />
+                            <Search placeholder="input search text" name="age" value={searchDetails.age}
+                                    onChange={onChange}/>
                         </Col>&nbsp;&nbsp;
                         <Col span={4}>
                             <label>Gender</label>
-                            <Search placeholder="input search text" name="gender" value={searchDetails.gender} onChange={onChange} />
+                            <Search placeholder="input search text" name="gender" value={searchDetails.gender}
+                                    onChange={onChange}/>
                         </Col>&nbsp;&nbsp;
                         <Col span={2}>
-                            <Button type="primary" icon={<SearchOutlined />} className="btn-search" onClick={onSearch}>
+                            <Button type="primary" icon={<SearchOutlined/>} className="btn-search" onClick={onSearch}>
                                 Search
                             </Button>
                         </Col>
