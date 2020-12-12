@@ -26,7 +26,6 @@ const SignUp = (props) => {
 
     const initial = (id) => {
         if (props.match.params.id !== undefined) {
-            $("#password").hide();
             axios.get(`http://localhost:8080/users/${id}`)
                 .then(res => {
                     if (res.data && res.data._id) {
@@ -106,15 +105,15 @@ const SignUp = (props) => {
                     })
                     .catch(err => {
                         console.log(err)
-            })
+                    })
             } else {
                 userDetails.isActive = true;
                 axios.post(`http://localhost:8080/users`, userDetails)
                     .then(res => {
                         console.log(userDetails);
-                            history.push("/login");
-                            setUserDetails({});
-                            setValidation({});
+                        history.push("/login");
+                        setUserDetails({});
+                        setValidation({});
                     })
                     .catch(err => {
                         console.log(err)
@@ -195,16 +194,30 @@ const SignUp = (props) => {
                                 </Select>
                                 <span className="text-danger">{errors.country || ""}</span>
                             </Form.Item>
-                            <Form.Item>
-                                <Input.Password name="password" addonBefore={<LockOutlined/>}
-                                              id = "password"  value={userDetails.password || ""} onChange={handleChange}/>
-                                <span className="text-danger">{errors.password || ""}</span>
-                            </Form.Item>
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit" onClick={handleSubmit}>
-                                    Sign Up
-                                </Button>
-                            </Form.Item>
+                            {
+                                props.match.params.id === undefined && (
+                                    <Form.Item>
+                                        <Input.Password name="password" addonBefore={<LockOutlined/>}
+                                                        id="password" value={userDetails.password || ""}
+                                                        onChange={handleChange}/>
+                                        <span className="text-danger">{errors.password || ""}</span>
+                                    </Form.Item>
+                                )
+                            }
+                            {
+                                props.match.params.id !== undefined ?
+                                ( <Form.Item>
+                                    <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+                                        Edit
+                                    </Button>
+                                </Form.Item>
+                                ):(<Form.Item>
+                                        <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+                                            Sign Up
+                                        </Button>
+                                    </Form.Item>)
+                            }
+
                         </Form>
                     </Card>
                 </Col>
